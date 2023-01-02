@@ -1,0 +1,11 @@
+version: "3"
+services:
+ app:
+  image: saltaaron/node-jwt
+  restart: unless-stopped
+  container_name: node-jwt
+  hostname: node-jwt
+  ports:
+   - 4000:4000
+  environment:
+   - JWT_EXPIRES_IN=1m
