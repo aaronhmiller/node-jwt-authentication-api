@@ -1,5 +1,5 @@
-﻿const config = require('config.json');
-const jwt = require('jsonwebtoken');
+﻿const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 // users hardcoded for simplicity, store in a db for production applications
 const users = [{ id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' }];
@@ -14,8 +14,9 @@ async function authenticate({ username, password }) {
 
     if (!user) throw 'Username or password is incorrect';
 
+    const privateKey = fs.readFileSync('../keys/key.pem');
     // create a jwt token that is valid for 15 mins
-    const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: process.env.JWT_EXPIRES_IN || '15m' });
+    const token = jwt.sign({ sub: user.id }, privateKey, { algorithm: 'RS256', expiresIn: process.env.JWT_EXPIRES_IN || '15m' });
 
     return {
         ...omitPassword(user),
