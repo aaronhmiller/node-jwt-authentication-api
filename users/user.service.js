@@ -14,7 +14,7 @@ async function authenticate({ username, password }) {
 
     if (!user) throw 'Username or password is incorrect';
 
-    // create a jwt token that is valid for 7 days
+    // create a jwt token that is valid for 15 mins
     const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: process.env.JWT_EXPIRES_IN || '15m' });
 
     return {
